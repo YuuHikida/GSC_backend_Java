@@ -12,14 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class UserController {
     //service
-    private final UserService userService;
+    //private final UserService userService;
 
-    @Autowired
-    public UserController(UserServive userServive)
-    {
-        this.userService = userServive;
-    }
+//    @Autowired
+//    public UserController(UserServive userServive)
+//    {
+//        this.userService = userServive;
+//    }
 
     @GetMapping
-    public
+    public String  UserHomeInfo(){
+        return "hello";
+    }
 }
