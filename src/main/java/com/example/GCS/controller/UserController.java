@@ -1,5 +1,6 @@
 package com.example.GCS.controller;
 
+import com.example.GCS.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class UserController {
 //    }
 
     @GetMapping
-    public String  UserHomeInfo(){
-        return "hello";
+    public UserModel  UserHomeInfo(){
+        return new UserModel("TANAKA","sample@yahoo.co.jp","23:00");
     }
 }
