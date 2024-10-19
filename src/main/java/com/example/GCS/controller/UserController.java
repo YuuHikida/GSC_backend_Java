@@ -1,6 +1,7 @@
 package com.example.GCS.controller;
 
 import com.example.GCS.model.UserModel;
+import com.example.GCS.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class UserController {
-    //service
-    //private final UserService userService;
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
 
 //    @Autowired
 //    public UserController(UserServive userServive)
@@ -22,7 +28,8 @@ public class UserController {
 //    }
 
     @GetMapping
-    public UserModel  UserHomeInfo(){
-        return new UserModel("TANAKA","sample@yahoo.co.jp","23:00");
+    public UserModel  GetOneUsersInformation(){
+        return userService.GetOneUsersInformation();
+        //return new UserModel("1","TANAKA","sample@yahoo.co.jp","23:00");
     }
 }
