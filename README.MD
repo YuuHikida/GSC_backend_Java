@@ -142,3 +142,8 @@ spring.data.mongodb.uri=mongodb+srv://<username>:<password>@cluster0.mongodb.net
 resources/templates は、必要に応じて Thymeleaf などのテンプレートファイルを配置する場所です。
 test フォルダには、ユニットテストや統合テストのコードを配置します。
 これで React と MongoDB Atlas を連携し、Spring Boot のアーキテクチャに基づいて効率的に作業を進められると思います！
+
+
+テストコード生成のショートカットコマンド:
+Windows/Linux: Ctrl + Shift + T
+Mac: Cmd + Shift + T
