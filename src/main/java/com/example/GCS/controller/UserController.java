@@ -27,9 +27,9 @@ public class UserController {
 //        this.userService = userServive;
 //    }
 
-    @GetMapping
+    @GetMapping("/{userName}")
     public UserModel  GetOneUsersInformation(){
-        return userService.GetOneUsersInformation();
+        return userService.GetOneUsersInformation(gitName);
         //return new UserModel("1","TANAKA","sample@yahoo.co.jp","23:00");
     }
 }
