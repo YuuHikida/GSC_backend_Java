@@ -35,7 +35,7 @@ class UserServiceTest {
     @Test
     public void TestGetOneUsersInformation()
     {
-        UserModel result = userService.GetOneUsersInformation();
+        UserModel result = userService.GetOneUsersInformation("TANAKA");
 
         assertNotNull(result);
         assertEquals("TANAKA",result.getGitName());

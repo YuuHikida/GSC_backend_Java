@@ -21,3 +21,4 @@ build/
 
 ## 環境設定 ##
 .env
+.env.test
