@@ -20,8 +20,18 @@ public class UserService {
     * 戻り値 : UserModel...
     * */
     public UserModel GetOneUsersInformation(String gitName){
-        return userRepository.findByGitName(gitName);
+        try {
+            return userRepository.findByGitName(gitName);
+        } catch (Exception e) {
+            System.out.println("エラー: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
 
+    }
+
+    public UserModel getOneEmail(String email){
+        return userRepository.findByMail(email);
     }
 
 }

@@ -20,6 +20,6 @@ build/
 
 
 ## 環境設定 ##
-.env
+src/main/resources/.env
 src/test/resources/.env.test
 application-test.properties

@@ -11,4 +11,5 @@ public  interface UserRepository extends MongoRepository<UserModel,String> {
     //gitNameで検索するクエリメソッド
     UserModel findByGitName(String gitName);
 
+    UserModel findByMail(String email);
 }

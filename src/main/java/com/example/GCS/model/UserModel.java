@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @AllArgsConstructor // 全フィールドを引数に持つコンストラクタを生成
-@Document(collection = "user")
+@Document(collection = "user_info")
 public class UserModel {
     @Id
     private String id;
@@ -18,3 +18,4 @@ public class UserModel {
     private String time;
 
 }
+

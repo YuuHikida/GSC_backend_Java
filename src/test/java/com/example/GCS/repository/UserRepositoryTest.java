@@ -19,19 +19,19 @@ class UserRepositoryTest {
 
     @BeforeAll
     static void setUp() {
+        // 本番用の .env ファイルを読み込む
         Dotenv dotenv = Dotenv.configure().directory("src/test/resources").filename(".env.test").load();
         String mongoUri = dotenv.get("MONGODB_URI");
         if (mongoUri != null) {
             System.setProperty("spring.data.mongodb.uri", mongoUri);
-            System.out.println("成功しました!!!!!!!!!!!!!!!!:"+mongoUri);
         } else {
-            throw new IllegalStateException("MONGODB_URI not found in .env.test");
+            throw new IllegalStateException("MONGODB_URI not found in .env");
         }
     }
 
     @Test
     void testFindExistingDataInProduction() {
-        // 既存データがあるか確認
+        // 本番データから検索
         UserModel foundUser = userRepository.findByGitName("TANAKA");
 
         // アサーション
