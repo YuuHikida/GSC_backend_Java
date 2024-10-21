@@ -21,4 +21,5 @@ build/
 
 ## 環境設定 ##
 .env
-.env.test
+src/test/resources/.env.test
+application-test.properties
