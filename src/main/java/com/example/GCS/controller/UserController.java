@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 * 概要:ルート
 * */
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
