@@ -30,6 +30,7 @@ public class UserService {
 
     }
 
+    // メール1件取得
     public UserModel getOneEmail(String email){
         return userRepository.findByMail(email);
     }
