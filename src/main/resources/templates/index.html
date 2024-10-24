@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+<h1>Google認証サンプル</h1>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<div id="g_id_onload"
+     data-client_id="522105682309-5d8mvjkggn9n5id9pr8fr032lrqdnng1.apps.googleusercontent.com"
+     data-callback="afterLoginCallback"
+     data-ux_mode="redirect"
+     data-login_uri="http://localhost:8080/callback"
+     data-size="small"
+>
+</div>
+<div class="g_id_signin" data-type="standard"></div>
 </body>
 </html>
