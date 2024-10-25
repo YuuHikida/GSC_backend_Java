@@ -17,4 +17,5 @@ public class GoogleOauthController {
         mav.setViewName("index"); // テンプレートHTML指定
         return mav;
     }
+    //ここにpostMapping
 }
