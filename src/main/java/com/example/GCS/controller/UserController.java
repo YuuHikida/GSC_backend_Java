@@ -23,11 +23,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public  String HomeCurrent()
-    {
-        return "Hello,World";
-    }
+//    @GetMapping("/")
+//    public  String HomeCurrent()
+//    {
+//        return "Hello,World";
+//    }
 
     @GetMapping("/{gitName}")
     public ResponseEntity<UserModel> getOneUsersInformation(@PathVariable("gitName") String gitName) {
