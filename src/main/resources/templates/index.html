@@ -1,48 +1,19 @@
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Google OAuth認証</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 <h1>Google認証サンプル</h1>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <div id="g_id_onload"
      data-client_id="522105682309-tmpkcd2n6nsqgitqub1l0s3uink443cd.apps.googleusercontent.com"
-     data-ux_mode="popup"
-     data-callback="loginCallback"
+     data-ux_mode="redirect"
+     data-login_uri="http://localhost:8080/done"
      data-auto_prompt="false">
 </div>
 
 <div class="g_id_signin" data-type="standard"></div>
-<script>
-    async function loginCallback(e) {
-    if (!e.credential) {
-        console.error("No credential received");
-        return;
-    }
-
-    try {
-        const response = await fetch("http://localhost:8080/done", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Accept": "application/json"
-            },
-            body: `credential=${encodeURIComponent(e.credential)}`
-        });
-
-        if (response.ok) {
-            const result = await response.text();
-            console.log("Credential sent successfully: ", result);
-        } else {
-            console.error("Failed to send credential, Status: ", response.status);
-        }
-    } catch (error) {
-        console.error("Error in loginCallback: ", error);
-    }
-}
-
-
-</script>
 </body>
 </html>
