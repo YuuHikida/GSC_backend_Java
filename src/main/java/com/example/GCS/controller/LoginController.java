@@ -10,12 +10,21 @@ public class LoginController {
 
     @GetMapping("/loginSuccess")
     public String loginSuccess(OAuth2AuthenticationToken authentication, Model model) {
-        // ユーザー情報を取得してモデルに追加
+        // ユーザー情報を取得
         String name = authentication.getPrincipal().getAttributes().get("name").toString();
         String email = authentication.getPrincipal().getAttributes().get("email").toString();
 
+        // デバッグログ
+        System.out.println("User Name: " + name);
+        System.out.println("User Email: " + email);
+
+        // モデルに追加
         model.addAttribute("name", name);
         model.addAttribute("email", email);
-        return "home";  // root.html にリダイレクト
+
+        System.out.println(authentication.getPrincipal().getAttributes());
+
+        return "home";
     }
+
 }

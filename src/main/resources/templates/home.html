@@ -6,7 +6,13 @@
     <title>ホーム</title>
 </head>
 <body>
-<h1>こんにちは、${name} さん！</h1>
-<p>メールアドレス: ${email}</p>
+<h1>こんにちは、[[${name}]] さん！</h1>
+<p>メールアドレス: [[${email}]]</p>
+
+
+<!-- デバッグ用 -->
+<p>デバッグ: ${name != null ? name : '名前がありません'}</p>
+<p>デバッグ: ${email != null ? email : 'メールがありません'}</p>
+
 </body>
 </html>
