@@ -1,2 +1,8 @@
 .envファイルはDockerBuildコマンド時に渡す
 理由:環境変数がハードコードされてしまうため
+ビルドコマンド:
+docker build -t springboot-app .
+(補足: springboot-app は自由命名）
+起動コマンド:
+docker run -p 8080:8080 --env-file ./.env springboot-app
+

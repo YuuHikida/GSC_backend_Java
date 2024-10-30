@@ -1,30 +1,35 @@
 package com.example.GCS.controller;
 
+import com.example.GCS.dto.UserHomeInfoDTO;
+import com.example.GCS.service.HomeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class LoginController {
 
+    private final HomeService homeService;
+
+    @Autowired
+    public LoginController(HomeService homeService) {
+        this.homeService = homeService;
+    }
+
+
     @GetMapping("/loginSuccess")
-    public String loginSuccess(OAuth2AuthenticationToken authentication, Model model) {
+    public UserHomeInfoDTO loginSuccess(OAuth2AuthenticationToken authentication, Model model) {
         // ユーザー情報を取得
-        String name = authentication.getPrincipal().getAttributes().get("name").toString();
-        String email = authentication.getPrincipal().getAttributes().get("email").toString();
+        UserHomeInfoDTO userHomeInfoDTO = homeService.getUserInfoFromOAuth2(authentication);
 
         // デバッグログ
-        System.out.println("User Name: " + name);
-        System.out.println("User Email: " + email);
+        System.out.println("User Name: " + userHomeInfoDTO.getUserName());
+        System.out.println("User Email: " + userHomeInfoDTO.getEmail());
 
-        // モデルに追加
-        model.addAttribute("name", name);
-        model.addAttribute("email", email);
-
-        System.out.println(authentication.getPrincipal().getAttributes());
-
-        return "home";
+        return userHomeInfoDTO;
     }
 
 }
