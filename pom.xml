@@ -112,6 +112,13 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 			<version>3.1.4</version> <!-- 使用しているSpring Bootのバージョンに合わせる -->
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
 
 	</dependencies>
 
