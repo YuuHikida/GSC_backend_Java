@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class LoginController {
         this.homeService = homeService;
     }
 
-
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @GetMapping("/loginSuccess")
     public UserHomeInfoDTO loginSuccess(OAuth2AuthenticationToken authentication, Model model) {
         // ユーザー情報を取得
