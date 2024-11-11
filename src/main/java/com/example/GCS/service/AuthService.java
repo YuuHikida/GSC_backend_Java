@@ -22,13 +22,21 @@ public class AuthService {
         //dbg用
         System.out.println("clientId =" + clientId);
 
-        UserHomeInfoDTO userInfo = new UserHomeInfoDTO();
-
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                 .setAudience(Collections.singletonList(clientId))
                 .build();
 
+        // Payload オブジェクトを取得
         GoogleIdToken idToken = verifier.verify(token);
+        UserHomeInfoDTO userInfo = new UserHomeInfoDTO();
+        if(idToken != null)
+        {
+            GoogleIdToken.Payload payload = idToken.getPayload();
+            userInfo.setUserName((String) payload.get("name")); // 名前を設定
+            userInfo.setEmail(payload.getEmail()); // メールを設定
+        }else {
+            throw new IllegalArgumentException("Invalid ID token.");
+        }
 
         return userInfo;
     }
