@@ -3,9 +3,6 @@ package com.example.GCS.controller;
 import com.example.GCS.dto.UserHomeInfoDTO;
 import com.example.GCS.service.AuthService;
 
-import com.google.api.client.auth.oauth2.TokenRequest;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +21,10 @@ public class AuthController {
     private final AuthService authService;
 
 
-
     @Autowired
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
-
 
     /*
      * 概要 : フロントから受け取ったトークンを確認してデータを返す
@@ -40,7 +35,6 @@ public class AuthController {
         // トークン検証コード
         return authService.authenticatingTheClientId(token);
     }
-
 
 
 }
