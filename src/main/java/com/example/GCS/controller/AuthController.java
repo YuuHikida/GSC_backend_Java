@@ -37,11 +37,8 @@ public class AuthController {
     @PostMapping("/authenticate")
     public UserHomeInfoDTO authenticateAndUserName_UserEmail(@RequestParam("token") String token) throws GeneralSecurityException, IOException
     {
-        UserHomeInfoDTO userInfo = new UserHomeInfoDTO();
-         userInfo = authService.authenticatingTheClientId(token);
-
         // トークン検証コード
-        return userInfo;
+        return authService.authenticatingTheClientId(token);
     }
 
 
