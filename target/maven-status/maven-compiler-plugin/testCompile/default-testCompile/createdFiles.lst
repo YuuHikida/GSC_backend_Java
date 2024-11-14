@@ -1,0 +1,4 @@
+com\example\GCS\controller\UserControllerTest.class
+com\example\GCS\GithubContributeSystemApplicationTests.class
+com\example\GCS\service\UserServiceTest.class
+com\example\GCS\repository\UserRepositoryTest.class
