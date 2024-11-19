@@ -14,7 +14,10 @@ public class CorsConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:3000"); // フロントエンドのURLを許可
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://172.28.16.1.nip.io:3000"
+        )); // フロントエンドのURLを許可
         config.addAllowedMethod("GET");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("OPTIONS"); // プリフライトリクエストを許可
