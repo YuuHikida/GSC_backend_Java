@@ -30,9 +30,17 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://172.28.16.1.nip.io:3000"));
+        // オリジンを1つずつ明示的に追加
+        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedOrigin("http://172.28.16.1.nip.io:3000");
+
+        // 必要なHTTPメソッドを明示
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
+
+        // 許可するヘッダーを限定
+        config.setAllowedHeaders(List.of("Content-Type", "Authorization"));
+
+        // 認証情報を含むリクエストを許可
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
