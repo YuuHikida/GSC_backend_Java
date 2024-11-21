@@ -4,6 +4,7 @@ import com.example.GCS.dto.UserHomeInfoDTO;
 import com.example.GCS.service.AuthService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -31,6 +32,7 @@ public class AuthController {
     @PostMapping("/authenticate")
     public UserHomeInfoDTO authenticateAndUserName_UserEmail(@RequestBody Map<String, String> payload) throws GeneralSecurityException, IOException
     {
+        System.out.println("Received payload: " + payload); //dbg
         String token = payload.get("token");
         if (token == null || token.isEmpty()) {
             throw new IllegalArgumentException("Token is missing or empty");
@@ -39,5 +41,15 @@ public class AuthController {
         return authService.authenticatingTheClientId(token);
     }
 
+    // 実験的に作成
+    @PostMapping("/receiveJwt")
+    public ResponseEntity<String> receiveJwt(@RequestBody Map<String, String> payload) {
+        String jwt = payload.get("token"); // フロントエンドから送られたJWTを取得
+        System.out.println("(バックエンド)受け取ったJWT: " + jwt);
 
+        // 必要ならここでJWTの検証処理を追加
+        // 例: Googleの公開鍵で署名を検証
+
+        return ResponseEntity.ok("JWTを受け取りました！");
+    }
 }
