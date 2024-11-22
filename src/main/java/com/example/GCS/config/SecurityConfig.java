@@ -14,6 +14,9 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
+    /* 概要:エンドポイントへのアクセス制御
+     *
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -28,11 +31,19 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // CORS設定の定義
+    /* 概要: CORS設定の定義
+     * 許可するオリジン (addAllowedOrigin)          ...どのオリジンからリクエスト許可するか指定
+     * 許可するHTTPメソッド (setAllowedMethods)     ...GET, POST, PUT, DELETE など、どのHTTPメソッドを許可するかを指定
+     * 許可するヘッダー (setAllowedHeaders)         ...ライアントが送信できるリクエストヘッダーを指定
+     * 認証情報の共有 (setAllowCredentials)         ...クッキーや認証ヘッダーを含むリクエストを許可するかどうかを指定
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOriginPattern("http://localhost:*");   // ローカル開発環境を許可
+        config.addAllowedOriginPattern("http://172.28.16.1:3000"); // WSLのIPを許可
+        config.addAllowedOrigin("http://frontend:3000");       // コンテナ名経由のアクセス
+
         // オリジンを1つずつ明示的に追加
 //        config.addAllowedOrigin("http://localhost:3000");
 //        config.addAllowedOrigin("http://localhost:3000/");
@@ -46,7 +57,7 @@ public class SecurityConfig {
         config.setAllowedHeaders(List.of("*"));
 
         // 認証情報を含むリクエストを許可
-        config.setAllowCredentials(true); // ここをtrueにしてる時はオリジン(addAllowedOrigin)をワイルドカード指定できない
+        config.setAllowCredentials(true); // ここをtrueにしてる時はオリジン(addAllowedOrigin)をワイルドカード('*')指定できない
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
