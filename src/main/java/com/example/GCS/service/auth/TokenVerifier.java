@@ -7,7 +7,7 @@ import java.security.GeneralSecurityException;
 
 // authService interface
 public interface TokenVerifier {
-    // gogole Auth用
+    // google Auth用
     UserHomeInfoDTO verifyToken (String token) throws GeneralSecurityException, IOException;
     // いつかgithub アカウントとかでログイン出来たらいいなぁ...↓
 }
