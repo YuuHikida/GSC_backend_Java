@@ -1,8 +1,8 @@
-package com.example.GCS.service;
+package com.example.GCS.service.auth.implenebtation;
 
 import com.example.GCS.dto.UserHomeInfoDTO;
 
-import com.fasterxml.jackson.core.JsonFactory;
+import com.example.GCS.service.auth.TokenVerifier;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -15,7 +15,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 @Service
-public class AuthService {
+public class GoogleAuthService implements TokenVerifier {
 
     @Value("${GOOGLE_CLIENT_ID}") // Google Client ID を .env または application.properties に保存して読み込み
     private String clientId;
@@ -27,7 +27,8 @@ public class AuthService {
      * @throws GeneralSecurityException セキュリティ例外
      * @throws IOException 入出力例外
      */
-    public UserHomeInfoDTO authenticatingTheClientId(String token)throws GeneralSecurityException, IOException
+    @Override
+    public UserHomeInfoDTO verifyToken(String token)throws GeneralSecurityException, IOException
     {
         //dbg用
         System.out.println("clientId =" + clientId);
