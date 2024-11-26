@@ -1,5 +1,6 @@
 package com.example.GCS.controller;
 
+import com.example.GCS.dto.TmpUserHomeInfoDTO;
 import com.example.GCS.dto.UserHomeInfoDTO;
 import com.example.GCS.service.auth.TokenVerifier;
 import com.example.GCS.service.auth.implenebtation.GoogleAuthService;
@@ -30,7 +31,7 @@ public class AuthController {
      * 、token が JSONのボディ に含まれている場合、@RequestParam ではなく @RequestBody を使う必要がある
      */
     @PostMapping("/authenticate")
-    public UserHomeInfoDTO authenticateAndUserName_UserEmail(@RequestBody Map<String, String> payload) throws GeneralSecurityException, IOException
+    public TmpUserHomeInfoDTO authenticateAndUserName_UserEmail(@RequestBody Map<String, String> payload) throws GeneralSecurityException, IOException
     {
         System.out.println("Received payload: " + payload); //dbg
         String token = payload.get("token");
