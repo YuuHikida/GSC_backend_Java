@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
-    public void VerifyTheUser(){
-        System.out.print("a");
+
+    // 概要:フロントJWT検証後のメアドとDBの値が一致するか確認する
+    public String VerifyTheUser(){
+        return "a";
     }
 
 }

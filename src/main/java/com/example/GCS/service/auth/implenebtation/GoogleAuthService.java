@@ -1,5 +1,6 @@
 package com.example.GCS.service.auth.implenebtation;
 
+import com.example.GCS.dto.TmpUserHomeInfoDTO;
 import com.example.GCS.dto.UserHomeInfoDTO;
 
 import com.example.GCS.service.auth.TokenVerifier;
@@ -29,7 +30,7 @@ public class GoogleAuthService implements TokenVerifier {
      * @throws IOException 入出力例外
      */
     @Override
-    public UserHomeInfoDTO verifyToken(String token)throws GeneralSecurityException, IOException
+    public TmpUserHomeInfoDTO verifyToken(String token)throws GeneralSecurityException, IOException
     {
         //dbg用
         System.out.println("clientId =" + clientId);
@@ -41,12 +42,15 @@ public class GoogleAuthService implements TokenVerifier {
 
         // Payload オブジェクトを取得
         GoogleIdToken idToken = verifier.verify(token);
-        UserHomeInfoDTO userInfo = new UserHomeInfoDTO();
+        TmpUserHomeInfoDTO userInfo = new TmpUserHomeInfoDTO();
         if(idToken != null)
         {
             GoogleIdToken.Payload payload = idToken.getPayload();
             userInfo.setUserName((String) payload.get("name")); // 名前を設定
-            userInfo.setEmail(payload.getEmail()); // メールを設定
+            userInfo.setEmail(payload.getEmail());              // メールを設定
+            userInfo.setUserId(payload.getSubject());           // JWTから一意のsub
+            System.out.println("--------------------------");
+            System.out.println("userInfo.getUserId() = "+userInfo.getUserId());
         }else {
             throw new IllegalArgumentException("Invalid ID token.");
         }
