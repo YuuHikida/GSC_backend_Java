@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 
+// SOLID_OCPの原則を適用してinterfaceに
 @Service
 public class GoogleAuthService implements TokenVerifier {
 
