@@ -34,7 +34,7 @@ public class UserControllerTest {
     @Test
     public void testGetOneUsersInformation() throws Exception{
         //モックデータを作成
-        UserModel mockModel = new UserModel("1","TANAKA","sample@yahoo.co.jp","23:00");
+        UserModel mockModel = new UserModel("1","TANAKA","sample@yahoo.co.jp","23:00","114514");
 
         // モックの動作を定義
         when(userService.GetOneUsersInformation("TANAKA")).thenReturn(mockModel);

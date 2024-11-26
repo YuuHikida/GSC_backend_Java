@@ -49,8 +49,8 @@ public class GoogleAuthService implements TokenVerifier {
             userInfo.setUserName((String) payload.get("name")); // 名前を設定
             userInfo.setEmail(payload.getEmail());              // メールを設定
             userInfo.setUserId(payload.getSubject());           // JWTから一意のsub
-            System.out.println("--------------------------");
-            System.out.println("userInfo.getUserId() = "+userInfo.getUserId());
+//            System.out.println("--------------------------");
+//            System.out.println("userInfo.getUserId() = "+userInfo.getUserId());
         }else {
             throw new IllegalArgumentException("Invalid ID token.");
         }

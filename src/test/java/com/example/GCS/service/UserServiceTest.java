@@ -27,7 +27,7 @@ class UserServiceTest {
     @BeforeEach
     public void setUp() {
         // テスト用のモックデータを作成
-        mockUserModel = new UserModel("1", "tanaka", "tanaka@mail.com", "12:00");
+        mockUserModel = new UserModel("1", "tanaka", "tanaka@mail.com", "12:00","114514");
     }
 
 
