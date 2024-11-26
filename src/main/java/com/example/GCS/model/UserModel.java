@@ -16,6 +16,7 @@ public class UserModel {
     private String gitName;
     private String mail ;
     private String time;
+    private String userId;
 
 }
 
