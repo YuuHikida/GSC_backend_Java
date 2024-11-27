@@ -30,19 +30,30 @@ public class AuthServiceTest {
     private AuthRepository authRepository;  // モック化する依存クラス
     private Dotenv dotenv;
 
+    private String userId;
 
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this); //モックの初期化
         dotenv = Dotenv.configure().load(); // dotenv を初期化
+        userId = dotenv.get("TEST_SUB");
 
     }
 
     @Test
+    void testVerifyTheUser_Succes(){
+        //Given
+        TmpUserHomeInfoDTO tmpUserHomeInfoDTO = new TmpUserHomeInfoDTO();
+        tmpUserHomeInfoDTO.setUserId("TANAKA");
+        tmpUserHomeInfoDTO.setEmail("xxx@yahoo.co.jp");
+
+        //
+    }
+    @Test
     void testFindToken()throws Exception{
 
         //モックの動作定義
-        String userId      = dotenv.get("TEST_SUB");
+
         /*
          * optionalとは
          * 値が存在する場合     : optional.of(value)

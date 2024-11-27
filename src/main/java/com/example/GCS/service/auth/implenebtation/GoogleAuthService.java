@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.Optional;
 
 // SOLID_OCPの原則を適用してinterfaceに
 @Service
@@ -25,13 +26,12 @@ public class GoogleAuthService implements TokenVerifier {
      * トークンを検証し、ユーザー情報を返す
      *
      * @param token Googleログインから受け取ったIDトークン
-     * @return UserHomeInfoDTO ユーザーの名前とメール情報
-     * @throws GeneralSecurityException セキュリティ例外
-     * @throws IOException 入出力例外
+     * @return TmpUserHomeInfoDTO ユーザーの名前とメール情報
      */
     @Override
-    public TmpUserHomeInfoDTO verifyToken(String token)throws GeneralSecurityException, IOException
+    public Optional<TmpUserHomeInfoDTO> GoogleVerifyToken(String token)throws GeneralSecurityException, IOException
     {
+
         //dbg用
         System.out.println("clientId =" + clientId);
 
@@ -42,19 +42,19 @@ public class GoogleAuthService implements TokenVerifier {
 
         // Payload オブジェクトを取得
         GoogleIdToken idToken = verifier.verify(token);
-        TmpUserHomeInfoDTO userInfo = new TmpUserHomeInfoDTO();
-        if(idToken != null)
+        if(idToken == null)
         {
-            GoogleIdToken.Payload payload = idToken.getPayload();
-            userInfo.setUserName((String) payload.get("name")); // 名前を設定
-            userInfo.setEmail(payload.getEmail());              // メールを設定
-            userInfo.setUserId(payload.getSubject());           // JWTから一意のsub
-//            System.out.println("--------------------------");
-//            System.out.println("userInfo.getUserId() = "+userInfo.getUserId());
-        }else {
-            throw new IllegalArgumentException("Invalid ID token.");
+            return Optional.empty();    //空のoptional
         }
 
-        return userInfo;
+        GoogleIdToken.Payload payload = idToken.getPayload();
+        TmpUserHomeInfoDTO tmpUserHomeInfoDTO = new TmpUserHomeInfoDTO();
+        tmpUserHomeInfoDTO.setUserName((String) payload.get("name")); // 名前を設定
+        tmpUserHomeInfoDTO.setEmail(payload.getEmail());              // メールを設定
+        tmpUserHomeInfoDTO.setUserId(payload.getSubject());           // JWTから一意のsub
+//            System.out.println("--------------------------");
+//            System.out.println("userInfo.getUserId() = "+userInfo.getUserId());
+
+        return Optional.of(tmpUserHomeInfoDTO);
     }
 }
