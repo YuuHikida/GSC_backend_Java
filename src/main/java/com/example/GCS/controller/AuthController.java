@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.Map;
+import java.util.Optional;
 
 /*
  * 概要:クライアントからIDトークンを受け取り、検証する
@@ -31,7 +32,7 @@ public class AuthController {
      * 、token が JSONのボディ に含まれている場合、@RequestParam ではなく @RequestBody を使う必要がある
      */
     @PostMapping("/authenticate")
-    public TmpUserHomeInfoDTO authenticateAndUserName_UserEmail(@RequestBody Map<String, String> payload) throws GeneralSecurityException, IOException
+    public UserHomeInfoDTO authenticateAndUserName_UserEmail(@RequestBody Map<String, String> payload) throws GeneralSecurityException, IOException
     {
         System.out.println("Received payload: " + payload); //dbg
         String token = payload.get("token");
@@ -39,7 +40,11 @@ public class AuthController {
             throw new IllegalArgumentException("Token is missing or empty");
         }
         // トークン検証コード(Google)
-        return tokenVerifier.verifyToken(token);
+        Optional<TmpUserHomeInfoDTO> tmpUserHomeInfoDTO = tokenVerifier.GoogleVerifyToken(token);
+        UserHomeInfoDTO userHomeInfoDTO = new UserHomeInfoDTO();
+        //
+
+        return userHomeInfoDTO;
     }
 
     // 実験的に作成
