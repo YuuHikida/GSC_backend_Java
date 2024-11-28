@@ -24,3 +24,4 @@ src/main/resources/.env
 src/test/resources/.env.test
 application-test.properties
 .env
+keystore.p12
