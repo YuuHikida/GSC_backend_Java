@@ -22,6 +22,14 @@ public class GoogleAuthService implements TokenVerifier {
 
     @Value("${GOOGLE_CLIENT_ID}") // Google Client ID を .env または application.properties に保存して読み込み
     private String clientId;
+
+    private final GoogleIdTokenVerifier googleIdTokenVerifier;
+
+    // コンストラクタで GoogleIdTokenVerifier を注入
+    public GoogleAuthService(GoogleIdTokenVerifier googleIdTokenVerifier){
+        this.googleIdTokenVerifier = googleIdTokenVerifier;
+    }
+
     /**
      * トークンを検証し、ユーザー情報を返す
      *
@@ -31,17 +39,11 @@ public class GoogleAuthService implements TokenVerifier {
     @Override
     public Optional<TmpUserHomeInfoDTO> GoogleVerifyToken(String token)throws GeneralSecurityException, IOException
     {
-
         //dbg用
         System.out.println("clientId =" + clientId);
 
-        GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), jsonFactory)
-                .setAudience(Collections.singletonList(clientId))
-                .build();
-
         // Payload オブジェクトを取得
-        GoogleIdToken idToken = verifier.verify(token);
+        GoogleIdToken idToken = googleIdTokenVerifier.verify(token);
         if(idToken == null)
         {
             return Optional.empty();    //空のoptional
