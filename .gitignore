@@ -26,6 +26,7 @@ application-test.properties
 .env
 keystore.p12
 
+
 *.properties
 
 
