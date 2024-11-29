@@ -49,11 +49,15 @@ public class GithubContributeSystemApplication {
 			System.setProperty("GOOGLE_REDIRECT_URI", googleRedirectUri);
 		}
 
+		// store password
+		String storePassword = dotenv.get("KEY_STORE_PASSWORD");
+
 		System.out.println("MongoDB URI: " + mongoUri);
 		System.out.println("Google Client ID: " + googleClientID);
 		System.out.println("Google Client Secret: " + googleClientSecret);
 		System.out.println("Google Scope: " + googleScope);
 		System.out.println("Google Redirect URI: " + googleRedirectUri);
+		System.out.println("★store password:"+storePassword);
 
 		SpringApplication.run(GithubContributeSystemApplication.class, args);
 	}
