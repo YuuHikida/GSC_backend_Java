@@ -57,7 +57,7 @@ public class GithubContributeSystemApplication {
 		System.out.println("Google Client Secret: " + googleClientSecret);
 		System.out.println("Google Scope: " + googleScope);
 		System.out.println("Google Redirect URI: " + googleRedirectUri);
-		System.out.println("★store password:"+storePassword);
+//		System.out.println("★store password:"+storePassword);
 
 		SpringApplication.run(GithubContributeSystemApplication.class, args);
 	}
