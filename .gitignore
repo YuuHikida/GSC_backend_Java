@@ -31,5 +31,6 @@ keystore.p12
 
 
 echo "GSC_backend_Java.git/" >> .gitignore
+*.pem
 
 
