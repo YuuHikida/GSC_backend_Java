@@ -41,9 +41,11 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOriginPattern("http://localhost:*");   // ローカル開発環境を許可
+        config.addAllowedOriginPattern("https://localhost:*");   // ローカル開発環境を許可 http's' ver
         // フロントエンドの固定IPを許可
         config.addAllowedOrigin("http://192.168.200.101:3000"); // フロントエンドの固定IPとポート
         config.addAllowedOrigin("http://frontend:3000");       // コンテナ名経由のアクセス
+        config.addAllowedOrigin("https://frontend:3000");       // コンテナ名経由のアクセス
 
         // オリジンを1つずつ明示的に追加
 //        config.addAllowedOrigin("http://localhost:3000");
