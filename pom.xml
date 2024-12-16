@@ -142,7 +142,12 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-
+<!--test関連-->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 
 	</dependencies>

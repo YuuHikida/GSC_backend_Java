@@ -1,18 +1,15 @@
-package com.example.GCS.service.auth.implenebtation;
+package com.example.GCS.service.auth.implementation;
 
 import com.example.GCS.dto.TmpUserHomeInfoDTO;
 import com.example.GCS.dto.UserHomeInfoDTO;
 import com.example.GCS.model.UserModel;
 import com.example.GCS.repository.AuthRepository;
 import com.example.GCS.service.auth.AuthService;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.Optional;

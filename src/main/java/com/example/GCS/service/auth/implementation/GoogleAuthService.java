@@ -1,19 +1,15 @@
-package com.example.GCS.service.auth.implenebtation;
+package com.example.GCS.service.auth.implementation;
 
 import com.example.GCS.dto.TmpUserHomeInfoDTO;
-import com.example.GCS.dto.UserHomeInfoDTO;
 
 import com.example.GCS.service.auth.TokenVerifier;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 //import com.google.api.client.json.jackson2.JacksonFactory;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
 import java.util.Optional;
 
 // SOLID_OCPの原則を適用してinterfaceに
