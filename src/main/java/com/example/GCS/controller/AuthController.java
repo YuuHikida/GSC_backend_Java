@@ -1,8 +1,11 @@
 package com.example.GCS.controller;
 
+import com.example.GCS.dto.UserHomeInfoDTO;
 import com.example.GCS.service.auth.TokenVerifier;
 
+import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -45,10 +48,10 @@ public class AuthController {
      * 概要 : フロントから受け取ったトークンを確認してデータを返す
      * 、token が JSONのボディ に含まれている場合、@RequestParam ではなく @RequestBody を使う必要がある
      */
-//    @PostMapping("/authenticate")
-//    public UserHomeInfoDTO authenticateAndUserName_UserEmail(@RequestBody AuthenticationRequest authenticationRequest) throws GeneralSecurityException, IOException {
-//        return userHomeInfoDTO;
-//    }
+    @PostMapping("/authenticate")
+    public ResponseEntity<UserHomeInfoDTO> authenticateAndUserName_UserEmail(@RequestBody AuthenticationRequest authenticationRequest) throws GeneralSecurityException, IOException {
+        return ResponseEntity.ok(new UserHomeInfoDTO());
+    }
 
     @GetMapping("/testAuthenticate")
     public String TestGetMethod() throws GeneralSecurityException, IOException {
