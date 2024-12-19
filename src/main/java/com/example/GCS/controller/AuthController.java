@@ -1,5 +1,6 @@
 package com.example.GCS.controller;
 
+import com.example.GCS.dto.TokenRequestDTO;
 import com.example.GCS.dto.UserHomeInfoDTO;
 import com.example.GCS.service.auth.TokenVerifier;
 
@@ -49,7 +50,7 @@ public class AuthController {
      * 、token が JSONのボディ に含まれている場合、@RequestParam ではなく @RequestBody を使う必要がある
      */
     @PostMapping("/authenticate")
-    public ResponseEntity<UserHomeInfoDTO> authenticateAndUserName_UserEmail(@RequestBody AuthenticationRequest authenticationRequest) throws GeneralSecurityException, IOException {
+    public ResponseEntity<?> authenticateAndUserName_UserEmail(@RequestBody TokenRequestDTO tokenRequest) throws GeneralSecurityException, IOException {
         return ResponseEntity.ok(new UserHomeInfoDTO());
     }
 
