@@ -51,7 +51,10 @@ public class AuthController {
      */
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticateAndUserName_UserEmail(@RequestBody TokenRequestDTO tokenRequest) throws GeneralSecurityException, IOException {
-        return ResponseEntity.ok(new UserHomeInfoDTO());
+        UserHomeInfoDTO userHomeInfoDTO= new UserHomeInfoDTO();
+        userHomeInfoDTO.setUserName("TANAKA");
+        userHomeInfoDTO.setEmail("sample@yahoo.co.jp");
+        return ResponseEntity.ok(userHomeInfoDTO);
     }
 
     @GetMapping("/testAuthenticate")
