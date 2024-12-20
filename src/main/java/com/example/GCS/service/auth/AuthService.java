@@ -17,14 +17,16 @@ public class AuthService {
      }
 
 
+
+
     // 概要:フロントJWT検証後のメアドとDBの値が一致するか確認する
-    public UserHomeInfoDTO VerifyTheUser(TmpUserHomeInfoDTO tmpUserHomeInfoDTO){
-         // repositorysubIdが一致しているか確認
-        //UserModel userModel = authRepository();
-        // 成功ならログイン成功判定(userHomeInfoDTOをコントローラーに返す)
-        //失敗ならエラーを返す
-        //
-        return new UserHomeInfoDTO();
-    }
+//    public UserHomeInfoDTO VerifyTheUser(TmpUserHomeInfoDTO tmpUserHomeInfoDTO){
+//         // repositorysubIdが一致しているか確認
+//        //UserModel userModel = authRepository();
+//        // 成功ならログイン成功判定(userHomeInfoDTOをコントローラーに返す)
+//        //失敗ならエラーを返す
+//        //
+//        return new UserHomeInfoDTO();
+//    }
 
 }

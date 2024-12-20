@@ -4,6 +4,7 @@ import com.example.GCS.config.TestSecurityConfig;
 import com.example.GCS.dto.UserHomeInfoDTO;
 import com.example.GCS.service.auth.TokenVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,16 +30,17 @@ public class AuthControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    //MockBeanはサービス層など依存関係をロードするために必要
-//    @MockBean
-//    private TokenVerifier tokenVerifier;
+    private String gRequestBody;
 
+    //事前のテスト
+    @BeforeEach
+    void beforeSet(){
+        //リクエストボディ
+        gRequestBody = "{\"userName\":\"TANAKA\", \"email\":\"sample@yahoo.co.jp\"}";
+    }
     @Test
     @WithMockUser(username = "testUser", roles = {"USER"})        // 認証されたユーザーとしてテスト
-
     void testAuth() throws Exception {
-        //リクエストボディ
-        String requestBody = "{\"userName\":\"TANAKA\", \"email\":\"sample@yahoo.co.jp\"}";
 
         //期待するレスポンス
         var userHomeInfoDTO = new UserHomeInfoDTO();
@@ -53,10 +55,21 @@ public class AuthControllerTest {
         mockMvc.perform(post("/auth/authenticate")
                         .with(csrf()) // CSRFトークンを追加
                         .contentType(MediaType.APPLICATION_JSON)    //JSON形式のリクエストを指定
-                        .content(requestBody))                         //リクエストボディにJSONを含める
+                        .content(gRequestBody))                         //リクエストボディにJSONを含める
                 .andExpect(status().isOk())               //HTTP200_OKを期待
                 .andExpect(content().json(expectedJson));
 
+    }
+
+    @Test
+    @WithMockUser(username = "testUser", roles = {"USER"})
+    void testBadRequestAuth() throws Exception{
+        //
+        mockMvc.perform(post("/auth/authenticate")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gRequestBody))
+                .andExpect(status().isBadRequest());
     }
 
     /*
