@@ -30,17 +30,19 @@ public class AuthControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private String gRequestBody;
+    private String gTestJwt;
 
     //事前のテスト
     @BeforeEach
-    void beforeSet(){
-        //リクエストボディ
-        gRequestBody = "{\"userName\":\"TANAKA\", \"email\":\"sample@yahoo.co.jp\"}";
+    void setup() {
+        // ダミーのJWTトークンを生成（本来はJwtUtilなどを使う）
+        gTestJwt = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImlhdCI6MTY5NzU3MTQwMCwiZXhwIjoxNjk3NTc1MDAwfQ.somemocksignature";
     }
+
+    // 正常系
     @Test
     @WithMockUser(username = "testUser", roles = {"USER"})        // 認証されたユーザーとしてテスト
-    void testAuth() throws Exception {
+    void testReturnGoodReqAuth() throws Exception {
 
         //期待するレスポンス
         var userHomeInfoDTO = new UserHomeInfoDTO();
@@ -54,23 +56,37 @@ public class AuthControllerTest {
          */
         mockMvc.perform(post("/auth/authenticate")
                         .with(csrf()) // CSRFトークンを追加
-                        .contentType(MediaType.APPLICATION_JSON)    //JSON形式のリクエストを指定
-                        .content(gRequestBody))                         //リクエストボディにJSONを含める
+                        .header("Authorization", gTestJwt) // AuthorizationヘッダーにJWTを設定
+                        .contentType(MediaType.APPLICATION_JSON))    //JSON形式のリクエストを指定
                 .andExpect(status().isOk())               //HTTP200_OKを期待
                 .andExpect(content().json(expectedJson));
-
     }
 
+    //異常系
     @Test
     @WithMockUser(username = "testUser", roles = {"USER"})
-    void testBadRequestAuth() throws Exception{
-        //
+    void testAuthenticateWithMissingJwt() throws Exception {
+        gTestJwt = "Bebebebe";
+        // JWTが欠けているリクエスト
         mockMvc.perform(post("/auth/authenticate")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gRequestBody))
-                .andExpect(status().isBadRequest());
+                        .with(csrf()) // CSRFトークンを追加
+                        .header("Authorization", gTestJwt)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest()); // JWTがない場合は 400 Bad Request を期待
     }
+
+    //異常系2
+    @Test
+    @WithMockUser(username = "testUser", roles = {"USER"})
+    void testAuthenticateWithMissingJwt2() throws Exception {
+        // JWTが欠けているリクエスト
+        mockMvc.perform(post("/auth/authenticate")
+                        .with(csrf()) // CSRFトークンを追加
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest()); // JWTがない場合は 400 Bad Request を期待
+    }
+
+
 
     /*
     * なぜ @WithMockUser を付与すると認証できるのか？

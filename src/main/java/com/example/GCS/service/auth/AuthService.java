@@ -16,7 +16,10 @@ public class AuthService {
          this.authRepository= authRepository;
      }
 
-
+    public UserHomeInfoDTO verifyJWT(String token)
+    {
+        return new UserHomeInfoDTO();
+    }
 
 
     // 概要:フロントJWT検証後のメアドとDBの値が一致するか確認する
