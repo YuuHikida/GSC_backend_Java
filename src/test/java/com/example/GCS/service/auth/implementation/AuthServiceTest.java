@@ -53,7 +53,7 @@ public class AuthServiceTest {
         UserHomeInfoDTO result = authService.verifyJWT(gTestJwt);
         //戻り値設定
         UserHomeInfoDTO userHomeInfoDTO= new UserHomeInfoDTO();
-        userHomeInfoDTO.setUserName("TANAKA");
+//        userHomeInfoDTO.setUserName("TANAKA");
         //テスト実行
         assertEquals(userHomeInfoDTO,result);
     }
@@ -84,6 +84,19 @@ public class AuthServiceTest {
             第二引数に例外をスローするコード(ラムダ式)
             第三引数にはエラーがスローされない場合のエラーメッセージ
         * */
+        InvalidTokenException exception = assertThrows(
+                InvalidTokenException.class,
+                ()-> authService.verifyJWT(gTestJwt),
+                "例外がスロー出来ませんでした..."
+        );
+        //スローされた例外のメッセージを検証
+        assertEquals("Token is null or empty",exception.getMessage());
+    }
+    //異常系2
+    @Test
+    void testVerifyNullOfEmpty()
+    {
+        gTestJwt="";
         InvalidTokenException exception = assertThrows(
                 InvalidTokenException.class,
                 ()-> authService.verifyJWT(gTestJwt),
