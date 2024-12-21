@@ -76,7 +76,7 @@ public class AuthServiceTest {
 
     //異常系1
     @Test
-    void testVerifyNullofToken()
+    void testVerifyNullOfToken()
     {
         gTestJwt=null;
         /*テスト対象メソッドを呼び出し
@@ -85,7 +85,6 @@ public class AuthServiceTest {
             第三引数にはエラーがスローされない場合のエラーメッセージ
         * */
         InvalidTokenException exception = assertThrows(
-
                 InvalidTokenException.class,
                 ()-> authService.verifyJWT(gTestJwt),
                 "例外がスロー出来ませんでした..."
