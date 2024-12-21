@@ -50,10 +50,23 @@ public class AuthServiceTest {
         UserHomeInfoDTO result = authService.verifyJWT(gTestJwt);
         //戻り値設定
         UserHomeInfoDTO userHomeInfoDTO= new UserHomeInfoDTO();
-//        userHomeInfoDTO.setUserName("TANAKA");
-//        userHomeInfoDTO.setEmail("sample@yahoo.co.jp");
         //テスト実行
         assertEquals(userHomeInfoDTO,result);
     }
 
+    //正常系2
+    @Test
+    void testVerifyJWTOfContext()
+    {
+        //モック準備
+        String userId="123";
+        Mockito.when(authRepository.findByUserId(userId)).thenReturn(Optional.of(userModel));
+        //テスト対象メソッドを呼び出し
+        UserHomeInfoDTO result = authService.verifyJWT(gTestJwt);
+        //戻り値設定
+        UserHomeInfoDTO userHomeInfoDTO = new UserHomeInfoDTO();
+        userHomeInfoDTO.setUserName("TANAKA");
+        userHomeInfoDTO.setEmail("sample@yahoo.co.jp");
+        assertEquals(userHomeInfoDTO.getUserName(),result.getUserName());
+    }
 }
