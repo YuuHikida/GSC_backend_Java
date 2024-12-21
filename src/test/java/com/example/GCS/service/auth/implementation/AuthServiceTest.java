@@ -2,6 +2,7 @@ package com.example.GCS.service.auth.implementation;
 
 import com.example.GCS.dto.TmpUserHomeInfoDTO;
 import com.example.GCS.dto.UserHomeInfoDTO;
+import com.example.GCS.exception.InvalidTokenException;
 import com.example.GCS.model.UserModel;
 import com.example.GCS.repository.AuthRepository;
 import com.example.GCS.service.auth.AuthService;
@@ -13,9 +14,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import io.github.cdimascio.dotenv.Dotenv;
 
+
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 
@@ -50,6 +53,7 @@ public class AuthServiceTest {
         UserHomeInfoDTO result = authService.verifyJWT(gTestJwt);
         //戻り値設定
         UserHomeInfoDTO userHomeInfoDTO= new UserHomeInfoDTO();
+        userHomeInfoDTO.setUserName("TANAKA");
         //テスト実行
         assertEquals(userHomeInfoDTO,result);
     }
@@ -68,5 +72,25 @@ public class AuthServiceTest {
         userHomeInfoDTO.setUserName("TANAKA");
         userHomeInfoDTO.setEmail("sample@yahoo.co.jp");
         assertEquals(userHomeInfoDTO.getUserName(),result.getUserName());
+    }
+
+    //異常系1
+    @Test
+    void testVerifyNullofToken()
+    {
+        gTestJwt=null;
+        /*テスト対象メソッドを呼び出し
+            第一引数に例外クラス
+            第二引数に例外をスローするコード(ラムダ式)
+            第三引数にはエラーがスローされない場合のエラーメッセージ
+        * */
+        InvalidTokenException exception = assertThrows(
+
+                InvalidTokenException.class,
+                ()-> authService.verifyJWT(gTestJwt),
+                "例外がスロー出来ませんでした..."
+        );
+        //スローされた例外のメッセージを検証
+        assertEquals("Token is null or empty",exception.getMessage());
     }
 }
