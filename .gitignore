@@ -35,3 +35,4 @@ echo "GSC_backend_Java.git/" >> .gitignore
 
 
 memo
+.txt
