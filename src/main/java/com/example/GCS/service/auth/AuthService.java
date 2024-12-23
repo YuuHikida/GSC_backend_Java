@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
 /*
- * 概要:フロントから受け取ったJWTを検証し異常がないかを返す
+ * 概要:フロントから受け取ったJWTを検証し返す
  */
 @Service
 public class AuthService {
@@ -31,6 +31,12 @@ public class AuthService {
         String trimToken = token.replace("Bearer ","").trim();
         //ここにデバックプリント文クラスとか作りたいなぁ
 
+        //JWTの検証
+        try{
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 //        UserHomeInfoDTO userHomeInfoDTO = new UserHomeInfoDTO();
 //        userHomeInfoDTO.setUserName("TANAKA");
 

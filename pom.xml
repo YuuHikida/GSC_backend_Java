@@ -153,8 +153,12 @@
 			<artifactId>json-path</artifactId>
 			<version>2.9.0</version> <!-- 最新の安定バージョンを確認 -->
 		</dependency>
-
-
+<!--FireBase SDK用↓-->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>9.4.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
