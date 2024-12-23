@@ -35,7 +35,7 @@ public class AuthService {
         try{
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException("無効なトークンです: " + e.getMessage());
         }
 //        UserHomeInfoDTO userHomeInfoDTO = new UserHomeInfoDTO();
 //        userHomeInfoDTO.setUserName("TANAKA");
