@@ -1,0 +1,106 @@
+
+`FirebaseAuth.getInstance().verifyIdToken(idToken)` は、引数として渡された **`idToken`** を検証して、「トークンの中身」を **`FirebaseToken`** というオブジェクトとして返してくれるんだよ！これがJWTの中身みたいなもんだね。
+
+---
+
+### 🔍 **`FirebaseToken`が持ってる情報は何？**
+`FirebaseToken` にはトークンに含まれるデータが全部詰まってるよ。具体的にはこんな感じ：
+
+1. **`uid`**
+   トークンに紐づけられたFirebaseユーザーの一意の識別子（ユーザーID）。
+   ```java
+   String uid = decodedToken.getUid();  // ユーザーIDを取得
+   ```
+
+2. **`claims`**
+   トークンに含まれるカスタムクレーム（追加情報）。
+   ```java
+   Map<String, Object> claims = decodedToken.getClaims();  // カスタムクレームを取得
+   ```
+
+3. **`email`**
+   ユーザーのメールアドレス（Googleアカウントのメール）。
+   ```java
+   String email = decodedToken.getEmail();  // メールアドレスを取得
+   ```
+
+4. **`emailVerified`**
+   メールアドレスが確認済みかどうか。
+   ```java
+   boolean isVerified = decodedToken.isEmailVerified();  // 確認済みかどうか
+   ```
+
+5. **`name`**
+   ユーザーの表示名。
+   ```java
+   String name = decodedToken.getName();  // ユーザー名を取得
+   ```
+
+6. **`picture`**
+   プロフィール画像のURL。
+   ```java
+   String picture = decodedToken.getPicture();  // プロフィール画像を取得
+   ```
+
+7. **`issuer` (iss)**
+   トークンの発行者情報（FirebaseプロジェクトのURL）。
+   ```java
+   String issuer = decodedToken.getIssuer();
+   ```
+
+8. **`audience` (aud)**
+   トークンが対象としているFirebaseプロジェクトID。
+   ```java
+   String audience = decodedToken.getAudience();
+   ```
+
+---
+
+### 🚀 **使い方の例**
+こんな感じで使うことができるよ：
+
+```java
+public String verifyAndGetUserInfo(String idToken) {
+    try {
+        // トークンを検証
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+
+        // 必要な情報を取得
+        String uid = decodedToken.getUid();
+        String email = decodedToken.getEmail();
+        String name = decodedToken.getName();
+
+        return "ユーザー情報: UID=" + uid + ", Email=" + email + ", Name=" + name;
+
+    } catch (Exception e) {
+        throw new IllegalArgumentException("無効なトークンです: " + e.getMessage());
+    }
+}
+```
+
+---
+
+### 📜 **まとめ**
+`verifyIdToken` は **JWTの中身を解析してくれる便利屋** だ！
+返ってくる `FirebaseToken` は、ログインしてきたユーザーに関する情報がたっぷり詰まった「箱」だと思えばOK！
+
+トークンが本物か検証するだけじゃなく、その中に含まれてる情報を取り出すのもこれでできるんだよ！👍
+
+他に気になることがあれば、どんどん聞いておくんなまし！✨
+
+public String verifyAndGetUserInfo(String idToken) {
+    try {
+        // トークンを検証
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+
+        // 必要な情報を取得
+        String uid = decodedToken.getUid();
+        String email = decodedToken.getEmail();
+        String name = decodedToken.getName();
+
+        return "ユーザー情報: UID=" + uid + ", Email=" + email + ", Name=" + name;
+
+    } catch (Exception e) {
+        throw new IllegalArgumentException("無効なトークンです: " + e.getMessage());
+    }
+}
