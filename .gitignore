@@ -36,4 +36,5 @@ echo "GSC_backend_Java.git/" >> .gitignore
 
 memo
 .txt
+## ↓秘密鍵対策(消すときは正規表現を要検討) ##
 *.json

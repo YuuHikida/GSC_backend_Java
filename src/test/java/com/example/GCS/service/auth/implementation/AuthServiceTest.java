@@ -49,8 +49,10 @@ public class AuthServiceTest {
 
     @BeforeEach
     void setup()throws Exception {
+        // .envからサービスアカウントのパスを取得
         Dotenv dotenv = Dotenv.load();
-        serviceAccountPath=dotenv.get("SERVICE_ACCOUNT_PATH");
+        String serviceAccountPath = dotenv.get("SERVICE_ACCOUNT_PATH");
+
         //FirebaseAppの初期化
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(new FileInputStream(serviceAccountPath)))
