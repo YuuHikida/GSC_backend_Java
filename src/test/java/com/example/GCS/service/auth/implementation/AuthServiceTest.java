@@ -1,14 +1,9 @@
 package com.example.GCS.service.auth.implementation;
 
-import com.example.GCS.dto.TmpUserHomeInfoDTO;
-import com.example.GCS.dto.UserHomeInfoDTO;
-import com.example.GCS.exception.InvalidTokenException;
-import com.example.GCS.model.UserModel;
+import com.example.GCS.config.FirebaseConfig;
 import com.example.GCS.repository.AuthRepository;
 import com.example.GCS.service.auth.AuthService;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -18,71 +13,51 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import io.github.cdimascio.dotenv.Dotenv;
-import org.springframework.beans.factory.annotation.Value;
-
-
-import java.io.FileInputStream;
-import java.util.Optional;
-
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
+import com.example.GCS.util.TestUtils; // ユーティリティクラスのインポート
 
 public class AuthServiceTest {
 
     @Mock
     private AuthRepository authRepository;
-
     @Mock
     private FirebaseAuth firebaseAuth;
 
     @InjectMocks
     private AuthService authService;
 
-    private String serviceAccountPath;
     private String testJWT;
-    private String trimmedTestJWT;
-    private UserModel userModel;
 
     @BeforeEach
     void setup()throws Exception {
-        // .envからサービスアカウントのパスを取得
-        Dotenv dotenv = Dotenv.load();
-        String serviceAccountPath = dotenv.get("SERVICE_ACCOUNT_PATH");
+        // Firebase の初期化
+        FirebaseConfig firebaseConfig = new FirebaseConfig();
+        firebaseConfig.initializeFirebase();  // Firebase 初期化の呼び出し
 
-        //FirebaseAppの初期化
-        FirebaseOptions options = FirebaseOptions.builder()
-                .setCredentials(GoogleCredentials.fromStream(new FileInputStream(serviceAccountPath)))
-                        .build();
-        if(FirebaseApp.getApps().isEmpty()){
-            FirebaseApp.initializeApp(options);
-        }
         // Mockitoのモック初期化
         MockitoAnnotations.openMocks(this);
-        // ダミーのJWTトークンを生成（本来はJwtUtilなどを使う）
-        testJWT        = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImlhdCI6MTY5NzU3MTQwMCwiZXhwIjoxNjk3NTc1MDAwfQ.somemocksignature";
-        trimmedTestJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImlhdCI6MTY5NzU3MTQwMCwiZXhwIjoxNjk3NTc1MDAwfQ.somemocksignature";
-//        userModel = new UserModel("987","TANAKA","sample@yahoo.co.jp","19:19","123");
-        FirebaseToken firebaseToken;
-    }
 
+        //モックトークン作成(テスト関数への入力値)
+        testJWT = "Bearer " + TestUtils.createMockToken(); // プレフィックスを追加
+    }
 
     //正常系1(引数にjwtを渡し、正常にFireBaseTokenを返す)
     @Test
     void testNormalReturnJWT() throws FirebaseAuthException {
-        //事前準備
+        // 事前準備: モックFirebaseトークンを作成
         FirebaseToken mockFirebaseToken = mock(FirebaseToken.class);
-        //Firebaseの認証結果として返されるFirebaseTokenをモック化
-        when(firebaseAuth.verifyIdToken(trimmedTestJWT)).thenReturn(mockFirebaseToken);
 
-        //実行
+        // Firebase認証結果として返すべきトークンをモック
+        when(firebaseAuth.verifyIdToken(testJWT)).thenReturn(mockFirebaseToken);
+
+        // 実行: JWTをverifyしてFirebaseTokenを取得
         FirebaseToken result = authService.verifyJWT(testJWT);
+
+        // 結果がモックと一致するかを検証
         assertEquals(mockFirebaseToken, result);
-
-
     }
 /*// 仕様変更により一旦off
     //正常系

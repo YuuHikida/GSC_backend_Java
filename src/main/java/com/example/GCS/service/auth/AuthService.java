@@ -16,12 +16,11 @@ import org.thymeleaf.util.StringUtils;
 @Service
 public class AuthService {
 
-     private final AuthRepository authRepository;
+    private final AuthRepository authRepository;
 
-     public AuthService(AuthRepository authRepository)
-     {
-         this.authRepository= authRepository;
-     }
+    public AuthService(AuthRepository authRepository) {
+        this.authRepository = authRepository;
+    }
 
     /**
      * 概要:トークンを検証し、JWTに格納されているユーザー情報を返す
@@ -29,28 +28,25 @@ public class AuthService {
      * @param token Googleログインから受け取ったIDトークン
      * @return FirebaseToken ... トークンに含まれる情報を返す
      */
-    public FirebaseToken verifyJWT(String token)
-    {
+    public FirebaseToken verifyJWT(String token) {
         //引数チェック
-        if(token == null || StringUtils.isEmpty(token) || !token.startsWith("Bearer "))
-        {
+        if (token == null || StringUtils.isEmpty(token) || !token.startsWith("Bearer ")) {
             throw new InvalidTokenException("Token is null or empty");
         }
         //トークンを抽出
-        String trimToken = token.replace("Bearer ","").trim();
+        String trimToken = token.replace("Bearer ", "").trim();
         //ここにデバックプリント文クラスとか作りたいなぁ
-
-        //JWTの検証
-        try
-        {
-            return FirebaseAuth.getInstance().verifyIdToken(token);
+        System.out.println("トリム後のトークン: " + trimToken);
+        // JWTの検証
+        try {
+            FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(trimToken);
+            System.out.println("トークンの検証成功: " + firebaseToken);
+            return firebaseToken;
         } catch (Exception e) {
+            System.err.println("トークンの検証失敗: " + e.getMessage());
             throw new IllegalArgumentException("無効なトークンです: " + e.getMessage());
         }
-//        UserHomeInfoDTO userHomeInfoDTO = new UserHomeInfoDTO();
-//        userHomeInfoDTO.setUserName("TANAKA");
-
-//        return new UserHomeInfoDTO();
     }
+    //ここでログイン検証用関数を作成↓
 
 }
