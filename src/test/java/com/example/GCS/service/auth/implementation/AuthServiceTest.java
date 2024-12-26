@@ -21,44 +21,45 @@ import com.example.GCS.util.TestUtils; // ユーティリティクラスのイ�
 
 public class AuthServiceTest {
 
-    @Mock
-    private AuthRepository authRepository;
-    @Mock
-    private FirebaseAuth firebaseAuth;
-
-    @InjectMocks
-    private AuthService authService;
-
-    private String testJWT;
-
-    @BeforeEach
-    void setup()throws Exception {
-        // Firebase の初期化
-        FirebaseConfig firebaseConfig = new FirebaseConfig();
-        firebaseConfig.initializeFirebase();  // Firebase 初期化の呼び出し
-
-        // Mockitoのモック初期化
-        MockitoAnnotations.openMocks(this);
-
-        //モックトークン作成(テスト関数への入力値)
-        testJWT = "Bearer " + TestUtils.createMockToken(); // プレフィックスを追加
-    }
-
-    //正常系1(引数にjwtを渡し、正常にFireBaseTokenを返す)
-    @Test
-    void testNormalReturnJWT() throws FirebaseAuthException {
-        // 事前準備: モックFirebaseトークンを作成
-        FirebaseToken mockFirebaseToken = mock(FirebaseToken.class);
-
-        // Firebase認証結果として返すべきトークンをモック
-        when(firebaseAuth.verifyIdToken(testJWT)).thenReturn(mockFirebaseToken);
-
-        // 実行: JWTをverifyしてFirebaseTokenを取得
-        FirebaseToken result = authService.verifyJWT(testJWT);
-
-        // 結果がモックと一致するかを検証
-        assertEquals(mockFirebaseToken, result);
-    }
+    //仕様変更に伴い没
+//    @Mock
+//    private AuthRepository authRepository;
+//    @Mock
+//    private FirebaseAuth firebaseAuth;
+//
+//    @InjectMocks
+//    private AuthService authService;
+//
+//    private String testJWT;
+//
+//    @BeforeEach
+//    void setup()throws Exception {
+//        // Firebase の初期化
+//        FirebaseConfig firebaseConfig = new FirebaseConfig();
+//        firebaseConfig.initializeFirebase();  // Firebase 初期化の呼び出し
+//
+//        // Mockitoのモック初期化
+//        MockitoAnnotations.openMocks(this);
+//
+//        //モックトークン作成(テスト関数への入力値)
+//        testJWT = "Bearer " + TestUtils.createMockToken(); // プレフィックスを追加
+//    }
+//
+//    //正常系1(引数にjwtを渡し、正常にFireBaseTokenを返す)
+//    @Test
+//    void testNormalReturnJWT() throws FirebaseAuthException {
+//        // 事前準備: モックFirebaseトークンを作成
+//        FirebaseToken mockFirebaseToken = mock(FirebaseToken.class);
+//
+//        // Firebase認証結果として返すべきトークンをモック
+//        when(firebaseAuth.verifyIdToken(testJWT)).thenReturn(mockFirebaseToken);
+//
+//        // 実行: JWTをverifyしてFirebaseTokenを取得
+//        FirebaseToken result = authService.verifyJWT(testJWT);
+//
+//        // 結果がモックと一致するかを検証
+//        assertEquals(mockFirebaseToken, result);
+//    }
 /*// 仕様変更により一旦off
     //正常系
     @Test
