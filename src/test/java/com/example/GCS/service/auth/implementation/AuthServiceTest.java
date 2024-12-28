@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 import com.example.GCS.util.TestUtils; // ユーティリティクラスのインポート
 
 public class AuthServiceTest {
-
+//test
     //仕様変更に伴い没
 //    @Mock
 //    private AuthRepository authRepository;
