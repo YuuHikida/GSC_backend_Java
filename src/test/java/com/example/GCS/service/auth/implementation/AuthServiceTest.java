@@ -21,6 +21,7 @@ import com.example.GCS.util.TestUtils; // ユーティリティクラスのイ�
 
 public class AuthServiceTest {
 //test
+    //day
     //仕様変更に伴い没
 //    @Mock
 //    private AuthRepository authRepository;
