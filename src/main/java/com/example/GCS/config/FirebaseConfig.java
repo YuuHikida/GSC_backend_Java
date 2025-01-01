@@ -3,7 +3,6 @@ package com.example.GCS.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,24 +11,21 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-
 @Configuration
 public class FirebaseConfig {
 
+    @Value("${FIREBASE_CONFIG_PATH}")
+    private String firebaseConfigPath;
 
     @PostConstruct
     public void initializeFirebase() {
         try {
-            // .envからサービスアカウントのパスを読み込み
-            Dotenv dotenv = Dotenv.load();
-            String serviceAccountPath  = dotenv.get("SERVICE_ACCOUNT_PATH");
-
-            //サービスアカウントのストリーム作成
-            InputStream serviceAccountStream  = new FileInputStream(serviceAccountPath);
+            // サービスアカウントのストリーム作成
+            InputStream serviceAccountStream = new FileInputStream(firebaseConfigPath);
 
             // Firebaseを初期化
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccountStream ))
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccountStream))
                     .build();
 
             //初期化
