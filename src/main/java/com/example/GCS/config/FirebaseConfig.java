@@ -14,6 +14,7 @@ import java.io.InputStream;
 @Configuration
 public class FirebaseConfig {
 
+    //実行時環境変数に設定
     @Value("${FIREBASE_CONFIG_PATH}")
     private String firebaseConfigPath;
 
