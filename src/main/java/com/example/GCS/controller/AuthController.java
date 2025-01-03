@@ -20,13 +20,6 @@ import java.security.GeneralSecurityException;
 @RequestMapping("/auth")
 public class AuthController {
 
-//    private final TokenVerifier tokenVerifier;
-
-//    @Autowired
-//    public AuthController( TokenVerifier tokenVerifier) {
-//        this.tokenVerifier = tokenVerifier;
-//    }
-
     /*
      * 概要 : フロントから受け取ったトークンを確認してデータを返す
      * 、token が JSONのボディ に含まれている場合、@RequestParam ではなく @RequestBody を使う必要がある
@@ -56,8 +49,9 @@ public class AuthController {
         return ResponseEntity.ok(userHomeInfoDTO);
     }
 
-    @GetMapping("/testAuthenticate")
-    public String TestGetMethod() throws GeneralSecurityException, IOException {
+    @PostMapping("/testAuthenticate")
+    public String TestGetMethod(@RequestHeader("Authorization") String  authHeader) throws GeneralSecurityException, IOException {
+        System.out.println("authHeader is = " + authHeader);
         System.out.println("authenticate is alive");
         return "Hello,World";
     }
