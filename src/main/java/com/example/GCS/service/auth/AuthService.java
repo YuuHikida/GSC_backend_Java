@@ -6,12 +6,13 @@ import com.example.GCS.repository.AuthRepository;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
+import jakarta.servlet.http.Cookie;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
 /*
- * 概要:JWT検証およびその周りの操作
+ * 概要:JWT検証およびcookieその周りの操作
  */
 @Service
 public class AuthService {
@@ -46,6 +47,10 @@ public class AuthService {
             System.err.println("トークンの検証失敗: " + e.getMessage());
             throw new IllegalArgumentException("無効なトークンです: " + e.getMessage());
         }
+    }
+    public Cookie createHttpsOnlyCookies(String name,String value)
+    {
+        return new Cookie("tanaka","123");
     }
     //ここでログイン検証用関数を作成↓
 

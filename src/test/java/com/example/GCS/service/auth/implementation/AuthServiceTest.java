@@ -7,6 +7,8 @@ import com.example.GCS.service.auth.AuthService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import jakarta.servlet.http.Cookie;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +21,32 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import com.example.GCS.util.TestUtils; // ユーティリティクラスのインポート
 
+import java.net.CookieStore;
+
 public class AuthServiceTest {
+
+    @Mock
+    AuthService authService;
+
+    @BeforeEach
+    void setUp()
+    {
+        // mockの初期化
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void TestCreateHttpsOnlyCookies()
+    {
+        //予想
+        Cookie expected = new Cookie("name", "value");
+        when(authService.createHttpsOnlyCookies("TANAKA","123"))
+                .thenReturn(expected);
+        //結果
+        Cookie result = authService.createHttpsOnlyCookies("TANAKA","123");
+        // アサーション
+        assertEquals(expected,result);
+    }
 //test
     //仕様変更に伴い没
 //    @Mock

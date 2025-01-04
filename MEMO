@@ -155,3 +155,118 @@ test フォルダには、ユニットテストや統合テストのコードを
 テストコード生成のショートカットコマンド:
 Windows/Linux: Ctrl + Shift + T
 Mac: Cmd + Shift + T
+
+
+cookie周り
+
+フロントから送られてきたJWTを検証してクッキーとしてバックエンドからフロントに返す場合、以下のような流れと考え方が必要になります。
+
+---
+
+### 1. **認証トークンとログイントークンの役割**
+認証トークンとログイントークンを分けるのはセキュリティの観点からのベストプラクティスです。
+
+#### **認証トークン**
+- **目的**: ユーザーが認証済みであることを証明する。
+- **特徴**:
+  - 時間制限付き (短命: 例. 15分〜1時間)。
+  - APIリクエストのヘッダーで使用することが多い。
+  - JWT形式であることが一般的。
+  - セキュアなストレージ（例: `HttpOnly`なCookie）に保存。
+
+#### **リフレッシュトークン**
+- **目的**: 認証トークンが期限切れになった場合に新しいトークンを発行する。
+- **特徴**:
+  - 長命 (例. 数日〜数週間)。
+  - サーバーサイドで管理（DBに保存）することが推奨される。
+  - `HttpOnly`クッキーに保存され、クライアントは直接触れられない。
+
+---
+
+### 2. **流れの概要**
+以下の流れでトークンの検証とCookie返却を行います。
+
+#### **① JWTの受け取りと検証**
+1. フロントエンドからJWTをバックエンドに送信。
+   - 通常はHTTPリクエストの`Authorization`ヘッダーか、クッキー内に含まれる。
+2. バックエンド側でJWTの署名と有効期限を検証。
+   - 秘密鍵または公開鍵を使用して署名を検証します。
+
+#### **② 認証トークンの再生成**
+1. JWTが有効である場合、認証トークンを再生成。
+   - 古いトークンが期限切れの場合、リフレッシュトークンを検証して新しい認証トークンを発行します。
+
+#### **③ Cookieの設定**
+1. 再生成した認証トークンを`HttpOnly`クッキーとして設定し、フロントに返却。
+   - `Set-Cookie`ヘッダーを使用します。
+   - セキュリティを強化するため、以下の属性を追加:
+     - `HttpOnly`: JavaScriptでアクセス不可。
+     - `Secure`: HTTPS通信のみ有効。
+     - `SameSite`: CSRF攻撃を防止 (`Strict`または`Lax`)。
+
+#### **④ 次回以降のリクエスト**
+1. クライアントはリクエスト時に自動的にクッキーを含めて送信。
+   - サーバー側でCookieの内容を検証し、ユーザーの認証状態を確認します。
+
+---
+
+### 3. **コード例（Java + Spring Boot）**
+
+```java
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    private final JwtService jwtService; // JWTの生成・検証サービス
+    private final RefreshTokenService refreshTokenService; // リフレッシュトークン管理サービス
+
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@RequestBody LoginRequest request, HttpServletResponse response) {
+        // 1. ユーザー認証 (例: ユーザー名とパスワード)
+        if (!authService.validateCredentials(request.getUsername(), request.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // 2. 認証トークンとリフレッシュトークンを生成
+        String authToken = jwtService.generateAuthToken(request.getUsername());
+        String refreshToken = jwtService.generateRefreshToken(request.getUsername());
+
+        // 3. リフレッシュトークンをDBに保存
+        refreshTokenService.saveRefreshToken(request.getUsername(), refreshToken);
+
+        // 4. クッキーにトークンを設定
+        Cookie authCookie = createHttpOnlyCookie("AuthToken", authToken, 3600); // 1時間
+        Cookie refreshCookie = createHttpOnlyCookie("RefreshToken", refreshToken, 604800); // 1週間
+        response.addCookie(authCookie);
+        response.addCookie(refreshCookie);
+
+        return ResponseEntity.ok().build();
+    }
+
+    private Cookie createHttpOnlyCookie(String name, String value, int maxAge) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true); // HTTPS通信のみ
+        cookie.setPath("/");
+        cookie.setMaxAge(maxAge);
+        return cookie;
+    }
+}
+```
+
+---
+
+### 4. **考慮すべきセキュリティ事項**
+- **トークンの保存場所**
+  - 認証トークンは`HttpOnly`クッキーに保存し、JavaScriptでアクセスさせない。
+- **トークンの有効期限**
+  - 短い認証トークン + 長いリフレッシュトークンの組み合わせを使用。
+- **CSRF対策**
+  - `SameSite=Strict`属性の使用。
+  - 必要に応じてCSRFトークンを利用。
+
+---
+
+### 5. **結論**
+認証トークンとリフレッシュトークンを分けることで、セキュリティが向上します。一意のもの（認証トークン）は短命にし、リフレッシュトークンはDB管理することで
+、トークンの悪用リスクを最小限に抑えられます。
