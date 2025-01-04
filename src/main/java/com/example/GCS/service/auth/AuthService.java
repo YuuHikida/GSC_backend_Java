@@ -48,9 +48,19 @@ public class AuthService {
             throw new IllegalArgumentException("無効なトークンです: " + e.getMessage());
         }
     }
+
+    /**
+     * 概要:与えられた引数を元に新しいcookieを作成して返す
+     *
+     * @param name ... cookie名
+     *        value... 上記に対する値
+     * @return cookie ... 引数を包括したcookie
+     */
     public Cookie createHttpsOnlyCookies(String name,String value)
     {
-        return new Cookie("tanaka","123");
+        Cookie cookie = new Cookie(name,value);
+
+        return cookie;
     }
     //ここでログイン検証用関数を作成↓
 
