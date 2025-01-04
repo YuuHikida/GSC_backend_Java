@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 public class TokenRequestDTO {
     // GetterとSetter
-    private String token;
+    private String idToken;
 
 }

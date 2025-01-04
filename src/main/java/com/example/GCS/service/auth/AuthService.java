@@ -54,12 +54,16 @@ public class AuthService {
      *
      * @param name ... cookie名
      *        value... 上記に対する値
+     *        maxAge... トークンの使用期限
      * @return cookie ... 引数を包括したcookie
      */
-    public Cookie createHttpsOnlyCookies(String name,String value)
+    public Cookie createHttpsOnlyCookies(String name,String value,int maxAge)
     {
         Cookie cookie = new Cookie(name,value);
-
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(maxAge);
         return cookie;
     }
     //ここでログイン検証用関数を作成↓

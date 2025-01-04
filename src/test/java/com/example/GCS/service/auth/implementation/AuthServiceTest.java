@@ -41,10 +41,11 @@ public class AuthServiceTest {
     {
         // テスト準備
         AuthService authService = new AuthService(authRepository);
-        Cookie result = authService.createHttpsOnlyCookies("tanaka","123");
+        Cookie result = authService.createHttpsOnlyCookies("tanaka","123",3600);
         // 比較
         assertEquals("tanaka",result.getName());
         assertEquals("123",result.getValue());
+        assertEquals(3600,result.getMaxAge());
     }
 //test
     //仕様変更に伴い没
