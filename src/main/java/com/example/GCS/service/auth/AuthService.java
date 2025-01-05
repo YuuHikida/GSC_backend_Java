@@ -1,6 +1,6 @@
 package com.example.GCS.service.auth;
 
-import com.example.GCS.dto.UserHomeInfoDTO;
+import com.example.GCS.dto.TokenRequestDTO;
 import com.example.GCS.exception.InvalidTokenException;
 import com.example.GCS.repository.AuthRepository;
 
@@ -23,30 +23,9 @@ public class AuthService {
         this.authRepository = authRepository;
     }
 
-    /**
-     * 概要:トークンを検証し、JWTに格納されているユーザー情報を返す
-     *
-     * @param token Googleログインから受け取ったIDトークン
-     * @return FirebaseToken ... トークンに含まれる情報を返す
-     */
-    public FirebaseToken verifyJWT(String token) {
-        //引数チェック
-        if (token == null || StringUtils.isEmpty(token) || !token.startsWith("Bearer ")) {
-            throw new InvalidTokenException("Token is null or empty");
-        }
-        //トークンを抽出
-        String trimToken = token.replace("Bearer ", "").trim();
-        //ここにデバックプリント文クラスとか作りたいなぁ
-        System.out.println("トリム後のトークン: " + trimToken);
-        // JWTの検証
-        try {
-            FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(trimToken);
-            System.out.println("トークンの検証成功: " + firebaseToken);
-            return firebaseToken;
-        } catch (Exception e) {
-            System.err.println("トークンの検証失敗: " + e.getMessage());
-            throw new IllegalArgumentException("無効なトークンです: " + e.getMessage());
-        }
+    public void login(TokenRequestDTO tokenRequestDTO )
+    {
+
     }
 
     /**
@@ -67,5 +46,35 @@ public class AuthService {
         return cookie;
     }
     //ここでログイン検証用関数を作成↓
+
+
+
+
+    /**
+     * 概要:トークンを検証し、JWTに格納されているユーザー情報を返す
+     *
+     * @param token Googleログインから受け取ったIDトークン
+     * @return FirebaseToken ... トークンに含まれる情報を返す
+     */
+//仕様変更に伴いボツ
+    //    public FirebaseToken verifyJWT(String token) {
+//        //引数チェック
+//        if (token == null || StringUtils.isEmpty(token) || !token.startsWith("Bearer ")) {
+//            throw new InvalidTokenException("Token is null or empty");
+//        }
+//        //トークンを抽出
+//        String trimToken = token.replace("Bearer ", "").trim();
+//        //ここにデバックプリント文クラスとか作りたいなぁ
+//        System.out.println("トリム後のトークン: " + trimToken);
+//        // JWTの検証
+//        try {
+//            FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(trimToken);
+//            System.out.println("トークンの検証成功: " + firebaseToken);
+//            return firebaseToken;
+//        } catch (Exception e) {
+//            System.err.println("トークンの検証失敗: " + e.getMessage());
+//            throw new IllegalArgumentException("無効なトークンです: " + e.getMessage());
+//        }
+//    }
 
 }

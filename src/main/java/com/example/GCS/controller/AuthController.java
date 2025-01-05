@@ -2,6 +2,7 @@ package com.example.GCS.controller;
 
 import com.example.GCS.dto.TokenRequestDTO;
 import com.example.GCS.dto.UserHomeInfoDTO;
+import com.example.GCS.service.auth.AuthService;
 import com.example.GCS.service.auth.TokenVerifier;
 
 import com.nimbusds.oauth2.sdk.Response;
@@ -21,6 +22,11 @@ import java.security.GeneralSecurityException;
 @RequestMapping("/auth")
 public class AuthController {
 
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
     /*
      public ResponseEntity<T> {
     private HttpStatus status;       // ステータスコード (200, 400, 500 など)
@@ -32,7 +38,7 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody TokenRequestDTO tokenRequestDTO, HttpServletResponse response)
     {
         //フロントからの引数検証
-        String idToken = tokenRequestDTO.getIdToken();
+        authService.login(tokenRequestDTO);
 
         //フロントへの戻り値
         UserHomeInfoDTO userHomeInfoDTO = new UserHomeInfoDTO();
