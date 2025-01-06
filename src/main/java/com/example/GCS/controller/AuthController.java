@@ -3,15 +3,9 @@ package com.example.GCS.controller;
 import com.example.GCS.dto.TokenRequestDTO;
 import com.example.GCS.dto.UserHomeInfoDTO;
 import com.example.GCS.service.auth.AuthService;
-import com.example.GCS.service.auth.TokenVerifier;
-
-import com.nimbusds.oauth2.sdk.Response;
-import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.*;
 import java.security.GeneralSecurityException;
 
@@ -37,17 +31,21 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody TokenRequestDTO tokenRequestDTO, HttpServletResponse response)
     {
-        //フロントからの引数検証
-        authService.login(tokenRequestDTO);
-
-        //フロントへの戻り値
-        UserHomeInfoDTO userHomeInfoDTO = new UserHomeInfoDTO();
+        // 引数の検証&フロントへUserの名前、メアドを返す
+        UserHomeInfoDTO userHomeInfoDTO = authService.login(tokenRequestDTO);
         return ResponseEntity.ok(userHomeInfoDTO);
     }
 
 
 
-    //以下仕様変更に伴いボツ
+}
+
+
+
+
+
+
+//以下仕様変更に伴いボツ
 //    /*
 //     * 概要 : フロントから受け取ったトークンを確認してデータを返す
 //     * 、token が JSONのボディ に含まれている場合、@RequestParam ではなく @RequestBody を使う必要がある
@@ -83,5 +81,3 @@ public class AuthController {
 //        System.out.println("authenticate is alive");
 //        return "Hello,World";
 //    }
-
-}

@@ -1,6 +1,7 @@
 package com.example.GCS.service.auth;
 
 import com.example.GCS.dto.TokenRequestDTO;
+import com.example.GCS.dto.UserHomeInfoDTO;
 import com.example.GCS.exception.InvalidTokenException;
 import com.example.GCS.repository.AuthRepository;
 
@@ -23,9 +24,23 @@ public class AuthService {
         this.authRepository = authRepository;
     }
 
-    public void login(TokenRequestDTO tokenRequestDTO )
+    /**
+     * 概要:フロントから与えられたJWTを検証し、Cookieのセッティングと表示用DTO作成
+     *
+     * @param tokenRequestDTO ... フロントでユーザーから受け取るJWT
+     * @return UserHomeInfoDTO ... 認証確認後、ユーザ名とメアドを格納
+     */
+    public UserHomeInfoDTO login(TokenRequestDTO tokenRequestDTO )
     {
+        //引数チェック
+        //トークン検証
+        //DBの値確認
+        //Cookieのセット
 
+        //DTOに値を詰める
+        UserHomeInfoDTO userHomeInfoDTO = new UserHomeInfoDTO();
+
+        return userHomeInfoDTO;
     }
 
     /**

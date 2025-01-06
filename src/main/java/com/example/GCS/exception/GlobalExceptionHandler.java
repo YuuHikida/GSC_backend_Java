@@ -5,6 +5,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/*
+[@ExceptionHandler(ResourceNotFoundException.class)]
+ResourceNotFoundException がスローされた場合に
+このメソッドが呼び出されます。
+
+[ResponseEntity]
+    Spring が HTTP レスポンスを作成するためのクラス
+    この例では 404 (Not Found) ステータスコードと、
+    エラーメッセージをボディに含むレスポンスを返しています。
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
