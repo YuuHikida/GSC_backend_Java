@@ -28,6 +28,12 @@ public class AuthController {
     private T body;                   // レスポンスボディ（JSONなどのデータ）
      */
 
+    /**
+     * 概要:フロントから与えられたJWTを検証し、Cookieのセッティングと表示用DTO作成
+     *
+     * @param tokenRequestDTO ... フロントでユーザーから受け取るJWT
+     * @return UserHomeInfoDTO ... 認証確認後、ユーザ名とメアドを格納
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody TokenRequestDTO tokenRequestDTO, HttpServletResponse response)
     {
